@@ -5,12 +5,14 @@
 package icad2admin.view;
 
 import icad2admin.controller.MainController;
+import icad2admin.model.HistoriqueDAO;
 import icad2admin.model.Utilisateur;
 import icad2admin.model.UtilisateurDAO;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -21,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainFrame extends javax.swing.JFrame {
   UtilisateurDAO dao = new UtilisateurDAO();  
+  HistoriqueDAO histo = new HistoriqueDAO();
   MainController deleterUser = new MainController(dao);
     
 
@@ -35,7 +38,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         updateModifierButtonState();
-     
+        
+        tableHistorique.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+               updateModifierButtonState();
+               
+            }
+        });
+        updateModifierButtonState();
     }
     
     private void updateModifierButtonState(){
@@ -67,6 +78,8 @@ public class MainFrame extends javax.swing.JFrame {
         ButtonAjouter = new javax.swing.JButton();
         ButtonSupprimer = new javax.swing.JButton();
         ButtonModifier = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableHistorique = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Icad2Admin");
@@ -109,27 +122,43 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        tableHistorique.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID_HISTO", "ANCIEN_EMAIL", "ANCIEN_ADRESSE", "ANCIEN_TEL", "DATE_MODIF"
+            }
+        ));
+        jScrollPane2.setViewportView(tableHistorique);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(84, 84, 84)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonModifier)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonSupprimer)
                 .addGap(82, 82, 82))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(778, Short.MAX_VALUE)
+                .addComponent(ButtonAjouter)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(labelListe, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(235, 235, 235))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonAjouter))
-                        .addGap(38, 38, 38))))
+                .addContainerGap(373, Short.MAX_VALUE)
+                .addComponent(labelListe, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,13 +167,15 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(labelListe)
                 .addGap(15, 15, 15)
                 .addComponent(ButtonAjouter)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(280, 280, 280)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonSupprimer)
                     .addComponent(ButtonModifier))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -207,7 +238,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton ButtonModifier;
     private javax.swing.JButton ButtonSupprimer;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelListe;
+    private javax.swing.JTable tableHistorique;
     private javax.swing.JTable tableListeUser;
     // End of variables declaration//GEN-END:variables
 }

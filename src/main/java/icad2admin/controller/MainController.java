@@ -4,6 +4,7 @@
  */
 package icad2admin.controller;
 
+import icad2admin.model.HistoriqueDAO;
 import icad2admin.model.UtilisateurDAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -23,6 +24,15 @@ public class MainController {
 
     public MainController(UtilisateurDAO utilisateurDAO) {
         this.utilisateurDAO = utilisateurDAO;
+        this.historiqueDAO = null;
+    }
+    
+    private final HistoriqueDAO historiqueDAO;
+    
+    public MainController(HistoriqueDAO historiqueDAO) {
+        this.historiqueDAO = historiqueDAO;
+        this.utilisateurDAO = null;
+        
     }
 
     public void deleteUser(JTable tableListeUser) {

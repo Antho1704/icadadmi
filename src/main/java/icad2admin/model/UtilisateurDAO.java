@@ -65,7 +65,7 @@ public class UtilisateurDAO {
         }
         return utilisateurs;
     }
-
+    
     public void update(Utilisateur unUtilisateur) throws SQLException {
         String query = "UPDATE utilisateur set NOM_USER = ?, PRENOM_USER = ? , MDP_USER = ? , EMAIL_USER= ? , FONCTION_USER = ? , ADRESSE_USER = ? , TELEPHONE_USER = ? WHERE ID_USER= ?";
         PreparedStatement ps = connexion.prepareStatement(query);
